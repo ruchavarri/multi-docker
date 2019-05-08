@@ -1,0 +1,32 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t ruchavarri/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run ruchavarri/react-test npm test -- --coverage
+
+after_success:
+  - docker build -t ruchavarri/multi-client ./client
+  - docker build -t ruchavarri/multi-nginx ./nginx
+  - docker build -t ruchavarri/multi-server ./server
+  - docker build -t ruchavarri/multi-worker ./worker
+  # Login in to the docker CLI
+  - echo "¢DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # take those images and push them to docker-hub
+  - docker push ruchavarri/multi-client
+  - docker push ruchavarri/multi-nginx
+  - docker push ruchavarri/multi-server
+  - docker push ruchavarri/multi-worker
+
+
+
+
+
+
+
+
+
+
