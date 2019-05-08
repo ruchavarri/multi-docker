@@ -14,7 +14,7 @@ after_success:
   - docker build -t ruchavarri/multi-server ./server
   - docker build -t ruchavarri/multi-worker ./worker
   # Login in to the docker CLI
-  - echo "¢DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   # take those images and push them to docker-hub
   - docker push ruchavarri/multi-client
   - docker push ruchavarri/multi-nginx
